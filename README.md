@@ -1,4 +1,4 @@
-# ratingfinder
+# KNSB-Ratingfinder
 KNSB Rating finder
 
 Een script om KNSB rating te vinden op basis van bondsnummer en (optioneel) lijstnummer. Het script is gratis 24/7 te gebruiken via webapi.buildthis.nl/ratingfinder.
