@@ -35,10 +35,11 @@ class Finder
 
     public function getLatestList()
     {
-        return $this->allLists[count($this->allLists)-1];
+        return $this->allLists[count($this->allLists) - 1];
     }
 
-    protected function constructUrl(string $fedId, string $listId) {
+    protected function constructUrl(string $fedId, string $listId)
+    {
         return $this->baseUrl . '?lidnr=' . $fedId . '&listid=' . $listId;
     }
 
@@ -59,7 +60,6 @@ class Finder
         } else {
             return "Player not found.";
         }
-        
     }
 
     public function findLatestRating(string $fedId)
@@ -69,16 +69,16 @@ class Finder
 
     public function parseResult(string $data)
     {
-        switch($data) {
+        switch ($data) {
             case "Player not found.":
                 return ["rating" => "", "error" => $data];
-            break;
+                break;
             case "List not found.":
                 return ["rating" => "", "error" => $data];
-            break;
+                break;
             default:
                 return ["rating" => $data, "error" => ""];
-            break;
+                break;
         }
     }
 }
@@ -92,14 +92,18 @@ if (isset($_GET["list"])) {
 }
 
 $data = "";
+$result = [];
 
-if ($list) {
-    $data = $finder->findRating($fedId, $list);
+if ($fedId) {
+    if ($list) {
+        $data = $finder->findRating($fedId, $list);
+    } else {
+        $data = $finder->findLatestRating($fedId);
+    }
+    $result = $finder->parseResult($data);
 } else {
-    $data = $finder->findLatestRating($fedId);
+    $result = ["rating" => "", "error" => "No KNSB Id given."];
 }
-
-$result = $finder->parseResult($data);
 
 http_response_code(201);
 header('Content-Type: application/json');
