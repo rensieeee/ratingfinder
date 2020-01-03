@@ -4,7 +4,6 @@ namespace ratingFinder;
 
 require "vendor/autoload.php";
 
-use Exception;
 use PHPHtmlParser\Dom;
 
 class Finder
@@ -54,10 +53,10 @@ class Finder
         $playerInfo = $dom->getElementsByClass("spelerinfo");
 
         $dom = new Dom;
-        $data = $dom->loadStr($playerInfo->toArray()[0]->innerHtml);
-        try {
+        if ($playerInfo->toArray()[0]->innerHtml) {
+            $data = $dom->loadStr($playerInfo->toArray()[0]->innerHtml);
             return explode("</td>", explode("Rating:</td><td>", $data)[1])[0];
-        } catch (Exception $e) {
+        } else {
             return "Player not found.";
         }
         
